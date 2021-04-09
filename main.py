@@ -7,11 +7,6 @@ from typing import Tuple, List
 import cv2
 import numpy as np
 
-# TODO: versions of libraries that will be used:
-#  Python 3.9 (you can use previous versions as well)
-#  numpy 1.19.4
-#  scikit-learn 0.22.2.post1
-#  opencv-python 4.2.0.34
 
 def load_dataset(dataset_dir_path: Path) -> Tuple[List[np.ndarray], List[int]]:
     x, y = [], []
@@ -48,7 +43,6 @@ def apply_feature_transform(
 
 
 def data_processing(x: List[np.ndarray]) -> List[np.ndarray]:
-    # TODO: add data processing here
     for i, img in enumerate(x):
         x[i] = cv2.resize(img, (640, 480))
     return x
@@ -66,16 +60,16 @@ def project():
     x, y = load_dataset(data_path)
     x = data_processing(x)
 
-    # TODO: create a detector/descriptor here. Eg. cv2.AKAZE_create()
+    # create a detector/descriptor
     feature_detector_descriptor = cv2.AKAZE_create()
 
-    # TODO: train a vocabulary model and save it using pickle.dump function
+    # load a vocabulary model
     with Path('model/vocab_model.p').open('rb') as vocab_file:  # Don't change the path here
         vocab_model = pickle.load(vocab_file)
     print(vocab_model)
     x_transformed = apply_feature_transform(x, feature_detector_descriptor, vocab_model)
 
-    # TODO: train a classifier and save it using pickle.dump function
+    # load a classifier
     with Path('model/clf.p').open('rb') as classifier_file:  # Don't change the path here
         clf = pickle.load(classifier_file)
 
